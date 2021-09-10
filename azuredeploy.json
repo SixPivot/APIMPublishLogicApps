@@ -7,7 +7,7 @@
             "type": "String"
         },
         "apim-resourcegroup": {
-            "defaultValue": "APIMTtraining",
+            "defaultValue": "APIMTraining",
             "type": "String"
         },
         "apim-name": {
@@ -19,18 +19,18 @@
             "type": "String"
         },
         "loganalyticsWorkspace-name": {
-            "defaultValue": "APIMTtraining",
+            "defaultValue": "APIMTraining",
             "type": "String"
         }
     },
     "variables": {
-        "LogicAppName1": "APIMTtraining_L1",
-        "LogicAppName1_operationName": "APIMTtraining_L1",
-        "LogicAppName1_operationDisplayName": "APIMTtraining L1",
+        "LogicAppName1": "APIMTraining_L1",
+        "LogicAppName1_operationName": "APIMTraining_L1",
+        "LogicAppName1_operationDisplayName": "APIMTraining L1",
         "LogicAppName1_operationPath": "L1",
-        "LogicAppName2": "APIMTtraining_L2",
-        "LogicAppName2_operationName": "APIMTtraining_L2",
-        "LogicAppName2_operationDisplayName": "APIMTtraining L2",
+        "LogicAppName2": "APIMTraining_L2",
+        "LogicAppName2_operationName": "APIMTraining_L2",
+        "LogicAppName2_operationDisplayName": "APIMTraining L2",
         "LogicAppName2_operationPath": "L2",
         "APIName": "MyLogicApps",
         "APIDisplayName": "My Logic Apps",
