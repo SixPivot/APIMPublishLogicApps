@@ -7,7 +7,7 @@
             "type": "String"
         },
         "apim-resourcegroup": {
-            "defaultValue": "APIMTraining",
+            "defaultValue": "APIMTtraining",
             "type": "String"
         },
         "apim-name": {
@@ -330,7 +330,10 @@
             "apiVersion": "2020-06-01-preview",
             "name": "[concat(parameters('apim-name'), '/', variables('APIName'), '/',variables('LogicAppName1_operationName'))]",
             "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apim-name'), variables('APIName'))]"
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apim-name'), variables('APIName'))]",
+                "[resourceId('Microsoft.ApiManagement/service/backends', parameters('apim-name'), concat(replace(variables('LogicAppName1'),'_','-'), '-backendservice'))]",
+                "[resourceId('Microsoft.ApiManagement/service/namedValues', parameters('apim-name'), concat(replace(variables('LogicAppName1'),'_','-'), '-urltemplate'))]"
+
             ],
             "properties": {
                 "displayName": "[variables('LogicAppName1_operationDisplayName')]",
@@ -410,7 +413,9 @@
             "apiVersion": "2020-06-01-preview",
             "name": "[concat(parameters('apim-name'), '/', variables('APIName'), '/',variables('LogicAppName2_operationName'))]",
             "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apim-name'), variables('APIName'))]"
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apim-name'), variables('APIName'))]",
+                "[resourceId('Microsoft.ApiManagement/service/backends', parameters('apim-name'), concat(replace(variables('LogicAppName2'),'_','-'), '-backendservice'))]",
+                "[resourceId('Microsoft.ApiManagement/service/namedValues', parameters('apim-name'), concat(replace(variables('LogicAppName2'),'_','-'), '-urltemplate'))]"
             ],
             "properties": {
                 "displayName": "[variables('LogicAppName2_operationDisplayName')]",
