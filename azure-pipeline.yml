@@ -1,0 +1,41 @@
+name: $(Build.DefinitionName)_1.0.$(year:yy)$(DayOfYear)$(Rev:.r)
+trigger:
+  branches:
+    include:
+    - master
+pool:
+  name: Azure Pipelines
+variables:
+  subscriptionId: '6395155a-f1c7-4eee-89ec-c60424189924'
+  azureResourceManagerConnection: 'APIMTesting'
+  resourceGroupName: 'APIMTtraining'
+  location: 'Australia Southeast'
+
+stages:
+- stage: Build 
+  jobs:
+  - job: Build 
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: AzureResourceManagerTemplateDeployment@3
+      displayName: 'ARM Template deployment: Resource Group scope'
+      inputs:
+        azureResourceManagerConnection: '$(azureResourceManagerConnection)'
+        subscriptionId: '$(subscriptionId)'
+        resourceGroupName: '$(resourceGroupName)'
+        location: '$(location)'
+        csmFile: azuredeploy.json
+        csmParametersFile: azuredeploy.parameters.json
+        deploymentMode: Validation
+
+    - task: CopyFiles@2
+      displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+      inputs:
+        Contents: '*.json'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: ARM'
+      inputs:
+        ArtifactName: ARM

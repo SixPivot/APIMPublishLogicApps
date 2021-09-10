@@ -1,0 +1,461 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "apim-subscription": {
+            "defaultValue": "6395155a-f1c7-4eee-89ec-c60424189924",
+            "type": "String"
+        },
+        "apim-resourcegroup": {
+            "defaultValue": "APIMTtraining",
+            "type": "String"
+        },
+        "apim-name": {
+            "defaultValue": "APIMTrainingBC",
+            "type": "String"
+        },
+        "apim-ip": {
+            "defaultValue": "52.158.129.20",
+            "type": "String"
+        },
+        "loganalyticsWorkspace-name": {
+            "defaultValue": "APIMTtraining",
+            "type": "String"
+        }
+    },
+    "variables": {
+        "LogicAppName1": "APIMTtraining_L1",
+        "LogicAppName1_operationName": "APIMTtraining_L1",
+        "LogicAppName1_operationDisplayName": "APIMTtraining L1",
+        "LogicAppName1_operationPath": "L1",
+        "LogicAppName2": "APIMTtraining_L2",
+        "LogicAppName2_operationName": "APIMTtraining_L2",
+        "LogicAppName2_operationDisplayName": "APIMTtraining L2",
+        "LogicAppName2_operationPath": "L2",
+        "APIName": "MyLogicApps",
+        "APIDisplayName": "My Logic Apps",
+        "APIPath": "MLA"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2019-05-01",
+            "name": "[variables('LogicAppName1')]",
+            "dependsOn": [
+            ],
+            "location": "[resourceGroup().location]",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "tags": {
+            },
+            "resources": [
+                {
+                    "type": "providers/diagnosticSettings",
+                    "name": "[concat('Microsoft.Insights/', 'LogAndMetrics')]",
+                    "dependsOn": [
+                        "[variables('LogicAppName1')]"
+                    ],
+                    "apiVersion": "2017-05-01-preview",
+                    "properties": {
+                        "name": "LogAndMetrics",
+                        "workspaceId": "[resourceId('microsoft.operationalinsights/workspaces', parameters('loganalyticsWorkspace-name'))]",
+                        "logs": [
+                            {
+                                "category": "WorkflowRuntime",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "days": 30,
+                                    "enabled": false
+                                }
+                            }
+                        ],
+                        "metrics": [
+                            {
+                                "category": "AllMetrics",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "days": 30,
+                                    "enabled": false
+                                }
+                            }
+                        ]
+                    }
+                }
+            ],
+            "properties": {
+                "state": "Enabled",
+                "accessControl": {
+                    "triggers": {
+                        "openAuthenticationPolicies": {
+                            "policies": {
+                                "APIM-only": {
+                                    "type": "AAD",
+                                    "claims": [
+                                        {
+                                            "name": "iss",
+                                            "value": "[concat('https://sts.windows.net/', subscription().tenantId, '/')]"
+                                        },
+                                        {
+                                            "name": "oid",
+                                            "value": "[reference(resourceId(parameters('apim-subscription'), parameters('apim-resourcegroup'), 'Microsoft.ApiManagement/service', parameters('apim-name')) ,'2019-01-01', 'Full').identity.principalId]"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        "allowedCallerIpAddresses": [
+                            {
+                                "addressRange": "[concat(parameters('apim-ip'),'-',parameters('apim-ip'))]"
+                            }
+                        ]
+                    }
+                },
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "actions": {
+                        "Initialize_variable": {
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "test",
+                                        "type": "boolean",
+                                        "value": true
+                                    }
+                                ]
+                            },
+                            "runAfter": {},
+                            "type": "InitializeVariable"
+                        },
+                        "Response": {
+                            "inputs": {
+                                "statusCode": 200
+                            },
+                            "kind": "Http",
+                            "runAfter": {
+                                "Initialize_variable": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Response"
+                        }
+                    },
+                    "contentVersion": "1.0.0.0",
+                    "outputs": {},
+                    "parameters": {
+                    },
+                    "triggers": {
+                        "manual": {
+                            "inputs": {
+                                "schema": {}
+                            },
+                            "kind": "Http",
+                            "operationOptions": "SuppressWorkflowHeadersOnResponse",
+                            "type": "Request"
+                        }
+                    }
+                },
+                "parameters": {}
+            }
+        },
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2019-05-01",
+            "name": "[variables('LogicAppName2')]",
+            "dependsOn": [
+            ],
+            "location": "[resourceGroup().location]",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "tags": {
+            },
+            "resources": [
+                {
+                    "type": "providers/diagnosticSettings",
+                    "name": "[concat('Microsoft.Insights/', 'LogAndMetrics')]",
+                    "dependsOn": [
+                        "[variables('LogicAppName1')]"
+                    ],
+                    "apiVersion": "2017-05-01-preview",
+                    "properties": {
+                        "name": "LogAndMetrics",
+                        "workspaceId": "[resourceId('microsoft.operationalinsights/workspaces', parameters('loganalyticsWorkspace-name'))]",
+                        "logs": [
+                            {
+                                "category": "WorkflowRuntime",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "days": 30,
+                                    "enabled": false
+                                }
+                            }
+                        ],
+                        "metrics": [
+                            {
+                                "category": "AllMetrics",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "days": 30,
+                                    "enabled": false
+                                }
+                            }
+                        ]
+                    }
+                }
+            ],
+            "properties": {
+                "state": "Enabled",
+                "accessControl": {
+                    "triggers": {
+                        "openAuthenticationPolicies": {
+                            "policies": {
+                                "APIM-only": {
+                                    "type": "AAD",
+                                    "claims": [
+                                        {
+                                            "name": "iss",
+                                            "value": "[concat('https://sts.windows.net/', subscription().tenantId, '/')]"
+                                        },
+                                        {
+                                            "name": "oid",
+                                            "value": "[reference(resourceId(parameters('apim-subscription'), parameters('apim-resourcegroup'), 'Microsoft.ApiManagement/service', parameters('apim-name')) ,'2019-01-01', 'Full').identity.principalId]"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        "allowedCallerIpAddresses": [
+                            {
+                                "addressRange": "[concat(parameters('apim-ip'),'-',parameters('apim-ip'))]"
+                            }
+                        ]
+                    }
+                },
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "actions": {
+                        "Initialize_variable": {
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "test",
+                                        "type": "boolean",
+                                        "value": true
+                                    }
+                                ]
+                            },
+                            "runAfter": {},
+                            "type": "InitializeVariable"
+                        },
+                        "Response": {
+                            "inputs": {
+                                "statusCode": 200
+                            },
+                            "kind": "Http",
+                            "runAfter": {
+                                "Initialize_variable": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Response"
+                        }
+                    },
+                    "contentVersion": "1.0.0.0",
+                    "outputs": {},
+                    "parameters": {
+                    },
+                    "triggers": {
+                        "manual": {
+                            "inputs": {
+                                "schema": {}
+                            },
+                            "kind": "Http",
+                            "operationOptions": "SuppressWorkflowHeadersOnResponse",
+                            "type": "Request"
+                        }
+                    }
+                },
+                "parameters": {}
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis",
+            "apiVersion": "2021-01-01-preview",
+            "name": "[concat(parameters('apim-name'), '/',variables('APIName'))]",
+            "dependsOn": [
+            ],
+            "properties": {
+                "displayName": "[variables('APIDisplayName')]",
+                "apiRevision": "1",
+                "subscriptionRequired": true,
+                "serviceUrl": "",
+                "path": "[variables('APIPath')]",
+                "protocols": [
+                    "https"
+                ],
+                "isCurrent": true
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/backends",
+            "apiVersion": "2020-06-01-preview",
+            "name": "[concat(parameters('apim-name'), '/', variables('LogicAppName1'), '-backendservice')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Logic/workflows', variables('LogicAppName1'))]"
+            ],
+            "properties": {
+                "description": "[concat(variables('LogicAppName1'), '-backendservice')]",
+                "url": "[replace(listCallbackUrl(resourceId('Microsoft.Logic/workflows/triggers', variables('LogicAppName1'), 'manual'), '2016-06-01').basePath,'/manual/paths/invoke','')]",
+                "protocol": "http",
+                "resourceId": "[concat('https://management.azure.com',subscription().id,'/resourceGroups/',resourceGroup().name,'/providers/Microsoft.Logic/workflows/',variables('LogicAppName1'))]"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2020-06-01-preview",
+            "name": "[concat(parameters('apim-name'), '/', variables('LogicAppName1'), '-urltemplate')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Logic/workflows', variables('LogicAppName1'))]"
+            ],
+            "properties": {
+                "displayName": "IntegrationOracleERPCustBalUpdSIG",
+                "tags": [],
+                "secret": false,
+                "value": "[concat('/manual/paths/invoke/?api-version=2016-06-01&sp=', listCallbackUrl(resourceId('Microsoft.Logic/workflows/triggers', variables('LogicAppName1'), 'manual'), '2016-06-01').queries.sp, '&sv=', listCallbackUrl(resourceId('Microsoft.Logic/workflows/triggers', variables('LogicAppName1'), 'manual'), '2016-06-01').queries.sv, '&sig=',listCallbackUrl(resourceId('Microsoft.Logic/workflows/triggers', variables('LogicAppName1'), 'manual'), '2016-06-01').queries.sig)]"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2020-06-01-preview",
+            "name": "[concat(parameters('apim-name'), '/', variables('APIName'), '/',variables('LogicAppName1_operationName'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apim-name'), variables('APIName'))]"
+            ],
+            "properties": {
+                "displayName": "[variables('LogicAppName1_operationDisplayName')]",
+                "method": "POST",
+                "urlTemplate": "[concat('/',variables('LogicAppName1_operationPath'))]",
+                "description": "",
+                "request": {
+                    "description": "The request body.",
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "typeName": "request"
+                        }
+                    ]
+                },
+                "responses": [
+                    {
+                        "statusCode": 200,
+                        "description": "Request Accepted",
+                        "representations": [],
+                        "headers": []
+                    },
+                    {
+                        "statusCode": 500,
+                        "description": "Error",
+                        "representations": [],
+                        "headers": []
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2021-01-01-preview",
+            "name": "[concat(parameters('apim-name'), '/', variables('APIName'), '/',variables('LogicAppName1_operationName'),'/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('apim-name'), variables('APIName'), variables('LogicAppName1_operationName'))]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apim-name'), variables('APIName'))]"
+            ],
+            "properties": {
+                "value": "[concat('<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-backend-service backend-id=\"',variables('LogicAppName1'),'-backendservice\" />\r\n    <rewrite-uri template=\"{{',variables('LogicAppName1'),'-urltemplate}}\" />\r\n    <set-header name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n    <!-- <authentication-managed-identity resource=\"cbd5921b-68dd-41c5-ad87-f23956a49076\" ignore-error=\"false\" /> -->\r\n     <set-header name=\"Authorization\" exists-action=\"delete\" /> -->\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>')]",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/backends",
+            "apiVersion": "2020-06-01-preview",
+            "name": "[concat(parameters('apim-name'), '/', variables('LogicAppName2'), '-backendservice')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Logic/workflows', variables('LogicAppName2'))]"
+            ],
+            "properties": {
+                "description": "[concat(variables('LogicAppName2'), '-backendservice')]",
+                "url": "[replace(listCallbackUrl(resourceId('Microsoft.Logic/workflows/triggers', variables('LogicAppName2'), 'manual'), '2016-06-01').basePath,'/manual/paths/invoke','')]",
+                "protocol": "http",
+                "resourceId": "[concat('https://management.azure.com',subscription().id,'/resourceGroups/',resourceGroup().name,'/providers/Microsoft.Logic/workflows/',variables('LogicAppName2'))]"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/namedValues",
+            "apiVersion": "2020-06-01-preview",
+            "name": "[concat(parameters('apim-name'), '/', variables('LogicAppName2'), '-urltemplate')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Logic/workflows', variables('LogicAppName2'))]"
+            ],
+            "properties": {
+                "displayName": "IntegrationOracleERPCustBalUpdSIG",
+                "tags": [],
+                "secret": false,
+                "value": "[concat('/manual/paths/invoke/?api-version=2016-06-01&sp=', listCallbackUrl(resourceId('Microsoft.Logic/workflows/triggers', variables('LogicAppName2'), 'manual'), '2016-06-01').queries.sp, '&sv=', listCallbackUrl(resourceId('Microsoft.Logic/workflows/triggers', variables('LogicAppName2'), 'manual'), '2016-06-01').queries.sv, '&sig=',listCallbackUrl(resourceId('Microsoft.Logic/workflows/triggers', variables('LogicAppName2'), 'manual'), '2016-06-01').queries.sig)]"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations",
+            "apiVersion": "2020-06-01-preview",
+            "name": "[concat(parameters('apim-name'), '/', variables('APIName'), '/',variables('LogicAppName2_operationName'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apim-name'), variables('APIName'))]"
+            ],
+            "properties": {
+                "displayName": "[variables('LogicAppName2_operationDisplayName')]",
+                "method": "POST",
+                "urlTemplate": "[concat('/',variables('LogicAppName2_operationPath'))]",
+                "description": "",
+                "request": {
+                    "description": "The request body.",
+                    "headers": [],
+                    "representations": [
+                        {
+                            "contentType": "application/json",
+                            "typeName": "request"
+                        }
+                    ]
+                },
+                "responses": [
+                    {
+                        "statusCode": 200,
+                        "description": "Request Accepted",
+                        "representations": [],
+                        "headers": []
+                    },
+                    {
+                        "statusCode": 500,
+                        "description": "Error",
+                        "representations": [],
+                        "headers": []
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "apiVersion": "2021-01-01-preview",
+            "name": "[concat(parameters('apim-name'), '/', variables('APIName'), '/',variables('LogicAppName2_operationName'),'/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('apim-name'), variables('APIName'), variables('LogicAppName2_operationName'))]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apim-name'), variables('APIName'))]"
+            ],
+            "properties": {
+                "value": "[concat('<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-backend-service backend-id=\"',variables('LogicAppName2'),'-backendservice\" />\r\n    <rewrite-uri template=\"{{',variables('LogicAppName2'),'-urltemplate}}\" />\r\n    <set-header name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n    <!-- <authentication-managed-identity resource=\"cbd5921b-68dd-41c5-ad87-f23956a49076\" ignore-error=\"false\" /> -->\r\n     <set-header name=\"Authorization\" exists-action=\"delete\" /> -->\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>')]",
+                "format": "xml"
+            }
+        }
+    ],
+    "outputs": {
+    }
+}
