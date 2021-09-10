@@ -369,6 +369,7 @@
             "name": "[concat(parameters('apim-name'), '/', variables('APIName'), '/',variables('LogicAppName1_operationName'),'/policy')]",
             "dependsOn": [
                 "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('apim-name'), variables('APIName'), variables('LogicAppName1_operationName'))]",
+                "[resourceId('Microsoft.ApiManagement/service/namedValues', parameters('apim-name'), concat(replace(variables('LogicAppName1'),'_','-'), '-urltemplate'))]",
                 "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apim-name'), variables('APIName'))]"
             ],
             "properties": {
@@ -448,6 +449,7 @@
             "name": "[concat(parameters('apim-name'), '/', variables('APIName'), '/',variables('LogicAppName2_operationName'),'/policy')]",
             "dependsOn": [
                 "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('apim-name'), variables('APIName'), variables('LogicAppName2_operationName'))]",
+                "[resourceId('Microsoft.ApiManagement/service/namedValues', parameters('apim-name'), concat(replace(variables('LogicAppName2'),'_','-'), '-urltemplate'))]",
                 "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apim-name'), variables('APIName'))]"
             ],
             "properties": {
