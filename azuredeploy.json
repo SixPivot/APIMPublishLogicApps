@@ -331,7 +331,7 @@
             "name": "[concat(parameters('apim-name'), '/', variables('APIName'), '/',variables('LogicAppName1_operationName'))]",
             "dependsOn": [
                 "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apim-name'), variables('APIName'))]",
-                "[resourceId('Microsoft.ApiManagement/service/backends', parameters('apim-name'), concat(replace(variables('LogicAppName1'),'_','-'), '-backendservice'))]",
+                "[resourceId('Microsoft.ApiManagement/service/backends', parameters('apim-name'), concat(variables('LogicAppName1'), '-backendservice'))]",
                 "[resourceId('Microsoft.ApiManagement/service/namedValues', parameters('apim-name'), concat(replace(variables('LogicAppName1'),'_','-'), '-urltemplate'))]"
 
             ],
@@ -372,7 +372,7 @@
             "name": "[concat(parameters('apim-name'), '/', variables('APIName'), '/',variables('LogicAppName1_operationName'),'/policy')]",
             "dependsOn": [
                 "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('apim-name'), variables('APIName'), variables('LogicAppName1_operationName'))]",
-                "[resourceId('Microsoft.ApiManagement/service/namedValues', parameters('apim-name'), concat(replace(variables('LogicAppName1'),'_','-'), '-urltemplate'))]",
+                "[resourceId('Microsoft.ApiManagement/service/namedValues', parameters('apim-name'), concat(variables('LogicAppName1'), '-urltemplate'))]",
                 "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apim-name'), variables('APIName'))]"
             ],
             "properties": {
