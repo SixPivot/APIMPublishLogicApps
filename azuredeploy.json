@@ -314,7 +314,7 @@
         {
             "type": "Microsoft.ApiManagement/service/namedValues",
             "apiVersion": "2020-06-01-preview",
-            "name": "[concat(parameters('apim-name'), '/', variables('LogicAppName1'), '-urltemplate')]",
+            "name": "[concat(parameters('apim-name'), '/', replace(variables('LogicAppName1'),'_','-'), '-urltemplate')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Logic/workflows', variables('LogicAppName1'))]"
             ],
@@ -372,7 +372,7 @@
                 "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apim-name'), variables('APIName'))]"
             ],
             "properties": {
-                "value": "[concat('<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-backend-service backend-id=\"',variables('LogicAppName1'),'-backendservice\" />\r\n    <rewrite-uri template=\"{{',variables('LogicAppName1'),'-urltemplate}}\" />\r\n    <set-header name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n    <!-- <authentication-managed-identity resource=\"cbd5921b-68dd-41c5-ad87-f23956a49076\" ignore-error=\"false\" /> -->\r\n     <set-header name=\"Authorization\" exists-action=\"delete\" /> -->\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>')]",
+                "value": "[concat('<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-backend-service backend-id=\"',variables('LogicAppName1'),'-backendservice\" />\r\n    <rewrite-uri template=\"{{',replace(variables('LogicAppName2'),'_','-'),'-urltemplate}}\" />\r\n    <set-header name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n    <!-- <authentication-managed-identity resource=\"cbd5921b-68dd-41c5-ad87-f23956a49076\" ignore-error=\"false\" /> -->\r\n     <set-header name=\"Authorization\" exists-action=\"delete\" /> -->\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>')]",
                 "format": "xml"
             }
         },
@@ -393,7 +393,7 @@
         {
             "type": "Microsoft.ApiManagement/service/namedValues",
             "apiVersion": "2020-06-01-preview",
-            "name": "[concat(parameters('apim-name'), '/', variables('LogicAppName2'), '-urltemplate')]",
+            "name": "[concat(parameters('apim-name'), '/', replace(variables('LogicAppName2'),'_','-'), '-urltemplate')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Logic/workflows', variables('LogicAppName2'))]"
             ],
@@ -451,7 +451,7 @@
                 "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apim-name'), variables('APIName'))]"
             ],
             "properties": {
-                "value": "[concat('<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-backend-service backend-id=\"',variables('LogicAppName2'),'-backendservice\" />\r\n    <rewrite-uri template=\"{{',variables('LogicAppName2'),'-urltemplate}}\" />\r\n    <set-header name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n    <!-- <authentication-managed-identity resource=\"cbd5921b-68dd-41c5-ad87-f23956a49076\" ignore-error=\"false\" /> -->\r\n     <set-header name=\"Authorization\" exists-action=\"delete\" /> -->\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>')]",
+                "value": "[concat('<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-backend-service backend-id=\"',variables('LogicAppName2'),'-backendservice\" />\r\n    <rewrite-uri template=\"{{',replace(variables('LogicAppName2'),'_','-'),'-urltemplate}}\" />\r\n    <set-header name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n    <!-- <authentication-managed-identity resource=\"cbd5921b-68dd-41c5-ad87-f23956a49076\" ignore-error=\"false\" /> -->\r\n     <set-header name=\"Authorization\" exists-action=\"delete\" /> -->\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>')]",
                 "format": "xml"
             }
         }
