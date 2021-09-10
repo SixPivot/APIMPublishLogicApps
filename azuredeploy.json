@@ -50,38 +50,38 @@
             "tags": {
             },
             "resources": [
-                {
-                    "type": "providers/diagnosticSettings",
-                    "name": "[concat('Microsoft.Insights/', 'LogAndMetrics-',variables('LogicAppName1'))]",
-                    "dependsOn": [
-                        "[variables('LogicAppName1')]"
-                    ],
-                    "apiVersion": "2017-05-01-preview",
-                    "properties": {
-                        "name": "LogAndMetrics",
-                        "workspaceId": "[resourceId('microsoft.operationalinsights/workspaces', parameters('loganalyticsWorkspace-name'))]",
-                        "logs": [
-                            {
-                                "category": "WorkflowRuntime",
-                                "enabled": true,
-                                "retentionPolicy": {
-                                    "days": 30,
-                                    "enabled": false
-                                }
-                            }
-                        ],
-                        "metrics": [
-                            {
-                                "category": "AllMetrics",
-                                "enabled": true,
-                                "retentionPolicy": {
-                                    "days": 30,
-                                    "enabled": false
-                                }
-                            }
-                        ]
-                    }
-                }
+                // {
+                //     "type": "providers/diagnosticSettings",
+                //     "name": "[concat('Microsoft.Insights/', 'LogAndMetrics-',variables('LogicAppName1'))]",
+                //     "dependsOn": [
+                //         "[variables('LogicAppName1')]"
+                //     ],
+                //     "apiVersion": "2017-05-01-preview",
+                //     "properties": {
+                //         "name": "LogAndMetrics",
+                //         "workspaceId": "[resourceId('microsoft.operationalinsights/workspaces', parameters('loganalyticsWorkspace-name'))]",
+                //         "logs": [
+                //             {
+                //                 "category": "WorkflowRuntime",
+                //                 "enabled": true,
+                //                 "retentionPolicy": {
+                //                     "days": 30,
+                //                     "enabled": false
+                //                 }
+                //             }
+                //         ],
+                //         "metrics": [
+                //             {
+                //                 "category": "AllMetrics",
+                //                 "enabled": true,
+                //                 "retentionPolicy": {
+                //                     "days": 30,
+                //                     "enabled": false
+                //                 }
+                //             }
+                //         ]
+                //     }
+                // }
             ],
             "properties": {
                 "state": "Enabled",
@@ -171,38 +171,38 @@
             "tags": {
             },
             "resources": [
-                {
-                    "type": "providers/diagnosticSettings",
-                    "name": "[concat('Microsoft.Insights/', 'LogAndMetrics-',variables('LogicAppName2'))]",
-                    "dependsOn": [
-                        "[variables('LogicAppName2')]"
-                    ],
-                    "apiVersion": "2017-05-01-preview",
-                    "properties": {
-                        "name": "LogAndMetrics",
-                        "workspaceId": "[resourceId('microsoft.operationalinsights/workspaces', parameters('loganalyticsWorkspace-name'))]",
-                        "logs": [
-                            {
-                                "category": "WorkflowRuntime",
-                                "enabled": true,
-                                "retentionPolicy": {
-                                    "days": 30,
-                                    "enabled": false
-                                }
-                            }
-                        ],
-                        "metrics": [
-                            {
-                                "category": "AllMetrics",
-                                "enabled": true,
-                                "retentionPolicy": {
-                                    "days": 30,
-                                    "enabled": false
-                                }
-                            }
-                        ]
-                    }
-                }
+                // {
+                //     "type": "providers/diagnosticSettings",
+                //     "name": "[concat('Microsoft.Insights/', 'LogAndMetrics-',variables('LogicAppName2'))]",
+                //     "dependsOn": [
+                //         "[variables('LogicAppName2')]"
+                //     ],
+                //     "apiVersion": "2017-05-01-preview",
+                //     "properties": {
+                //         "name": "LogAndMetrics",
+                //         "workspaceId": "[resourceId('microsoft.operationalinsights/workspaces', parameters('loganalyticsWorkspace-name'))]",
+                //         "logs": [
+                //             {
+                //                 "category": "WorkflowRuntime",
+                //                 "enabled": true,
+                //                 "retentionPolicy": {
+                //                     "days": 30,
+                //                     "enabled": false
+                //                 }
+                //             }
+                //         ],
+                //         "metrics": [
+                //             {
+                //                 "category": "AllMetrics",
+                //                 "enabled": true,
+                //                 "retentionPolicy": {
+                //                     "days": 30,
+                //                     "enabled": false
+                //                 }
+                //             }
+                //         ]
+                //     }
+                // }
             ],
             "properties": {
                 "state": "Enabled",
