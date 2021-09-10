@@ -52,7 +52,7 @@
             "resources": [
                 {
                     "type": "providers/diagnosticSettings",
-                    "name": "[concat('Microsoft.Insights/', 'LogAndMetrics')]",
+                    "name": "[concat('Microsoft.Insights/', 'LogAndMetrics-',variables('LogicAppName1'))]",
                     "dependsOn": [
                         "[variables('LogicAppName1')]"
                     ],
@@ -173,7 +173,7 @@
             "resources": [
                 {
                     "type": "providers/diagnosticSettings",
-                    "name": "[concat('Microsoft.Insights/', 'LogAndMetrics')]",
+                    "name": "[concat('Microsoft.Insights/', 'LogAndMetrics-',variables('LogicAppName2'))]",
                     "dependsOn": [
                         "[variables('LogicAppName2')]"
                     ],
