@@ -377,7 +377,7 @@
                 "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apim-name'), variables('APIName'))]"
             ],
             "properties": {
-                "value": "[concat('<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-backend-service backend-id=\"',variables('LogicAppName1'),'-backendservice\" />\r\n    <rewrite-uri template=\"{{',replace(variables('LogicAppName2'),'_','-'),'-urltemplate}}\" />\r\n    <set-header name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n    <!-- <authentication-managed-identity resource=\"cbd5921b-68dd-41c5-ad87-f23956a49076\" ignore-error=\"false\" /> -->\r\n     <set-header name=\"Authorization\" exists-action=\"delete\" /> -->\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>')]",
+                "value": "[concat('<policies>\r\n  <inbound>\r\n    <base />\r\n    <set-backend-service backend-id=\"',variables('LogicAppName1'),'-backendservice\" />\r\n    <rewrite-uri template=\"{{',replace(variables('LogicAppName1'),'_','-'),'-urltemplate}}\" />\r\n    <set-header name=\"Ocp-Apim-Subscription-Key\" exists-action=\"delete\" />\r\n    <!-- <authentication-managed-identity resource=\"cbd5921b-68dd-41c5-ad87-f23956a49076\" ignore-error=\"false\" /> -->\r\n     <set-header name=\"Authorization\" exists-action=\"delete\" /> -->\r\n  </inbound>\r\n  <backend>\r\n    <base />\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>')]",
                 "format": "xml"
             }
         },
