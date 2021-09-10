@@ -2,7 +2,7 @@ name: $(Build.DefinitionName)_1.0.$(year:yy)$(DayOfYear)$(Rev:.r)
 trigger:
   branches:
     include:
-    - master
+    - main
 pool:
   name: Azure Pipelines
 variables:
