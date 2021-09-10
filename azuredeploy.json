@@ -319,7 +319,7 @@
                 "[resourceId('Microsoft.Logic/workflows', variables('LogicAppName1'))]"
             ],
             "properties": {
-                "displayName": "IntegrationOracleERPCustBalUpdSIG",
+                "displayName": "[concat(replace(variables('LogicAppName1'),'_','-'), '-urltemplate')]",
                 "tags": [],
                 "secret": false,
                 "value": "[concat('/manual/paths/invoke/?api-version=2016-06-01&sp=', listCallbackUrl(resourceId('Microsoft.Logic/workflows/triggers', variables('LogicAppName1'), 'manual'), '2016-06-01').queries.sp, '&sv=', listCallbackUrl(resourceId('Microsoft.Logic/workflows/triggers', variables('LogicAppName1'), 'manual'), '2016-06-01').queries.sv, '&sig=',listCallbackUrl(resourceId('Microsoft.Logic/workflows/triggers', variables('LogicAppName1'), 'manual'), '2016-06-01').queries.sig)]"
@@ -398,7 +398,7 @@
                 "[resourceId('Microsoft.Logic/workflows', variables('LogicAppName2'))]"
             ],
             "properties": {
-                "displayName": "IntegrationOracleERPCustBalUpdSIG",
+                "displayName": "[concat(replace(variables('LogicAppName2'),'_','-'), '-urltemplate')]",
                 "tags": [],
                 "secret": false,
                 "value": "[concat('/manual/paths/invoke/?api-version=2016-06-01&sp=', listCallbackUrl(resourceId('Microsoft.Logic/workflows/triggers', variables('LogicAppName2'), 'manual'), '2016-06-01').queries.sp, '&sv=', listCallbackUrl(resourceId('Microsoft.Logic/workflows/triggers', variables('LogicAppName2'), 'manual'), '2016-06-01').queries.sv, '&sig=',listCallbackUrl(resourceId('Microsoft.Logic/workflows/triggers', variables('LogicAppName2'), 'manual'), '2016-06-01').queries.sig)]"
